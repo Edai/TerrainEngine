@@ -5,6 +5,8 @@
 #ifndef WaterENGINE_WATER_HPP
 #define WaterENGINE_WATER_HPP
 
+#include "GraphicalCore.hpp"
+
 class Water
 {
 public:

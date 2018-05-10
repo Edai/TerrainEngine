@@ -7,6 +7,7 @@
 GraphicalCore* GraphicalCore::instance = nullptr;
 int GraphicalCore::old_t = 0;
 int GraphicalCore::speedFactor = 1;
+int GraphicalCore::rotate = 45;
 
 void GraphicalCore::Init()
 {
@@ -56,6 +57,12 @@ void GraphicalCore::KeyboardHandle(unsigned char key, int x, int y)
         case 27:
             glutLeaveMainLoop();
             break;
+        case 'z':
+            rotate += 2;
+            break;
+        case 's':
+            rotate -= 2;
+            break;
         default:
             return;
     }
@@ -97,8 +104,8 @@ void GraphicalCore::Menu(int value)
 
 void GraphicalCore::CreateMenu()
 {
-    glutCreateMenu(GraphicalCore::Menu);
-    glutAttachMenu(GLUT_RIGHT_BUTTON);
+//    glutCreateMenu(GraphicalCore::Menu);
+//    glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
 

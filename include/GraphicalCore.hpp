@@ -21,6 +21,7 @@ public:
     static void Reshape(int w, int h);
     static int old_t;
     static int speedFactor;
+    static int rotate;
 
 private:
     void Init();

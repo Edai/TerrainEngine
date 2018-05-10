@@ -4,6 +4,8 @@
 
 #include "Terrain.hpp"
 
+Terrain* Terrain::instance = nullptr;
+
 void Terrain::Init()
 {
 

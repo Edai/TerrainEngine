@@ -4,6 +4,8 @@
 
 #include "Water.hpp"
 
+Water* Water::instance = nullptr;
+
 void Water::Init()
 {
 

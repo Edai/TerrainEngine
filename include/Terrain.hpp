@@ -5,6 +5,8 @@
 #ifndef TERRAINENGINE_TERRAIN_HPP
 #define TERRAINENGINE_TERRAIN_HPP
 
+#include "GraphicalCore.hpp"
+
 class Terrain
 {
 public:

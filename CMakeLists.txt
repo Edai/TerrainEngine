@@ -38,4 +38,4 @@ find_package(GLEW REQUIRED)
 include_directories(include/ ${OPENGL_INCLUDE_DIRS} $(SOIL_INCLUDE_PATH) ${GLUT_INCLUDE_DIRS}  ${GLEW_INCLUDE_DIRS} glm/)
 target_link_libraries(TerrainEngine ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${SOIL_LIBRARY} ${GLEW_LIBRARIES})
 
-file(COPY resources DESTINATION resources)
+file(COPY resources DESTINATION .)
