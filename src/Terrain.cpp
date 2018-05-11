@@ -28,6 +28,7 @@ void Terrain::Render(float dt)
 
     glPushMatrix();
     glTranslatef(-Skybox::size / 2.0f, -Skybox::size / 2.0f, -Skybox::size / 2.0f);
+    //glActiveTexture(GL_TEXTURE0);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, terrain_texture);
     glBegin(GL_QUADS);

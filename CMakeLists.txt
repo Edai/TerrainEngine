@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(TerrainEngine src/main.cpp include/Application.hpp src/Application.cpp src/GraphicalCore.cpp include/GraphicalCore.hpp
         src/Engine.cpp include/Engine.hpp src/Skybox.cpp include/Skybox.hpp src/Terrain.cpp include/Terrain.hpp src/Water.cpp include/Water.hpp
-        lib/libtrimesh.a)
+        )
 
 FIND_PATH(SOIL_INCLUDE_PATH SOIL/SOIL.h
         /usr/include
