@@ -22,11 +22,11 @@ private:
     void RenderSkyReflexion();
 
     GLuint waterTexture = 0;
-    GLfloat waterSize = Skybox::size / 10.0f;
+    GLfloat waterSize = Skybox::size / 8.0f;
     GLfloat x = Skybox::size;
 
-    GLfloat waterShift = 2.0f;
-    GLfloat skyOpacity = 0.5f;
+    GLfloat waterShift = 5.0f;
+    GLfloat skyOpacity = 0.7f;
 
 #pragma SINGLETON
 private:

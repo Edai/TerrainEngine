@@ -51,13 +51,14 @@ bool Application::Parse(Options *options, int ac, char** av)
     return (true);
 }
 
-void Application::Start(int ac, char **av)
+int Application::Start(int ac, char **av)
 {
     auto *options = new Options();
     GraphicalCore *gc = GraphicalCore::Instance();
 
     if (!Parse(options, ac, av))
-        return;
+        return (-1);
     if (!gc->Run(ac, av, options))
-        return;
+        return (-1);
+    return (0);
 }

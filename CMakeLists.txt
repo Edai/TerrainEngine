@@ -4,7 +4,8 @@ project(TerrainEngine)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(TerrainEngine src/main.cpp include/Application.hpp src/Application.cpp src/GraphicalCore.cpp include/GraphicalCore.hpp
-        src/Engine.cpp include/Engine.hpp src/Skybox.cpp include/Skybox.hpp src/Terrain.cpp include/Terrain.hpp src/Water.cpp include/Water.hpp)
+        src/Engine.cpp include/Engine.hpp src/Skybox.cpp include/Skybox.hpp src/Terrain.cpp include/Terrain.hpp src/Water.cpp include/Water.hpp
+        lib/libtrimesh.a)
 
 FIND_PATH(SOIL_INCLUDE_PATH SOIL/SOIL.h
         /usr/include
@@ -35,7 +36,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(GLEW REQUIRED)
 
-include_directories(include/ ${OPENGL_INCLUDE_DIRS} $(SOIL_INCLUDE_PATH) ${GLUT_INCLUDE_DIRS}  ${GLEW_INCLUDE_DIRS} glm/)
+include_directories(include/ include/trimesh2 $(SOIL_INCLUDE_PATH) ${GLUT_INCLUDE_DIRS}  ${GLEW_INCLUDE_DIRS} glm/)
 target_link_libraries(TerrainEngine ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${SOIL_LIBRARY} ${GLEW_LIBRARIES})
 
 file(COPY resources DESTINATION .)

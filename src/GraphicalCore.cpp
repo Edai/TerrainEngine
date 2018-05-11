@@ -8,34 +8,47 @@ GraphicalCore* GraphicalCore::instance = nullptr;
 int GraphicalCore::old_t = 0;
 int GraphicalCore::speedFactor = 1;
 int GraphicalCore::rotate = 45;
-
+float GraphicalCore::Gy = 0.0f;
 void GraphicalCore::Init()
 {
     glDepthFunc(GL_LEQUAL);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glMatrixMode(GL_PROJECTION);
-    glShadeModel(GL_SMOOTH);
+    glShadeModel(GL_FLAT);
     old_t = glutGet(GLUT_ELAPSED_TIME);
+
 }
 
 bool GraphicalCore::Run(int ac, char **av, Options *options)
 {
-    glutInit(&ac, av);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH) ;
-    glutInitWindowPosition(WINDOWPOS_X, WINDOWPOS_Y);
-    glutInitWindowSize(options->width, options->height);
-    glutCreateWindow(options->window_name.c_str());
-    Init();
-    glutIdleFunc(GraphicalCore::Update);
-    glutReshapeFunc(GraphicalCore::Reshape);
-    glutSpecialFunc(GraphicalCore::SpecialKeyHandle);
-    glutKeyboardFunc(GraphicalCore::KeyboardHandle);
-    glutMouseFunc(GraphicalCore::MouseButton);
-    glutMotionFunc(GraphicalCore::MouseMove);
-    GraphicalCore::CreateMenu();
-    glutMainLoop();
-    return (true);
+    try
+    {
+        glutInit(&ac, av);
+        glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH) ;
+        glutInitWindowPosition(WINDOWPOS_X, WINDOWPOS_Y);
+        glutInitWindowSize(options->width, options->height);
+        glutCreateWindow(options->window_name.c_str());
+        Init();
+        glutIdleFunc(GraphicalCore::Update);
+        glutReshapeFunc(GraphicalCore::Reshape);
+        glutSpecialFunc(GraphicalCore::SpecialKeyHandle);
+        glutKeyboardFunc(GraphicalCore::KeyboardHandle);
+        glutMouseFunc(GraphicalCore::MouseButton);
+        glutMotionFunc(GraphicalCore::MouseMove);
+        GraphicalCore::CreateMenu();
+        glutMainLoop();
+        return (true);
+    }
+    catch (std::string &e)
+    {
+        std::cerr << "An error occurred : " << e << " !" << std::endl;
+        glutLeaveMainLoop();
+        return (false);
+    }
+    catch (...)
+    {
+        std::cerr << "An unknown error occurred !" << std::endl;
+        glutLeaveMainLoop();
+        return (false);
+    }
 }
 
 void GraphicalCore::Update()
@@ -62,6 +75,14 @@ void GraphicalCore::KeyboardHandle(unsigned char key, int x, int y)
             break;
         case 's':
             rotate -= 2;
+            break;
+        case'e':
+        std::cout << Gy << std::endl;
+            Gy += 0.1f;
+            break;
+        case 'd':
+            std::cout << Gy << std::endl;
+            Gy -= 0.1f;
             break;
         default:
             return;

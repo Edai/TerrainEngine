@@ -40,7 +40,7 @@ class Application
 {
 public:
     static bool Parse(Options *, int, char**);
-    static void Start(int, char **);
+    static int Start(int, char **);
 
 protected:
     Application();

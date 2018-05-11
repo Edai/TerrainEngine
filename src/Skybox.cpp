@@ -2,11 +2,12 @@
 // Created by edai on 10/05/18.
 //
 
+#include <cassert>
 #include "Skybox.hpp"
 
 Skybox* Skybox::instance = nullptr;
 GLfloat Skybox::size = 200.0f;
-GLfloat Skybox::factorY = 8.0f;
+GLfloat Skybox::factorY = 5.0f;
 
 void Skybox::Init()
 {
@@ -15,6 +16,8 @@ void Skybox::Init()
         std::string s = FOLDER_SKYBOX + std::string(faces_names[i]);
         textures[i] = SOIL_load_OGL_texture(s.c_str(), SOIL_LOAD_AUTO,
                                             SOIL_CREATE_NEW_ID, SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_MULTIPLY_ALPHA);
+        if (!textures[i])
+            throw "Texture file \"" + s + "\" cannot be found";
     }
 }
 
@@ -28,6 +31,7 @@ void Skybox::ApplyTexture(GLuint t)
 
 void Skybox::Render(float dt)
 {
+    glPushMatrix();
     glEnable(GL_TEXTURE_2D);
 
     ApplyTexture(textures[MAP_POSITIVE_Y]);
@@ -71,6 +75,7 @@ void Skybox::Render(float dt)
     glEnd();
 
     glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
 }
 
 GLuint Skybox::GetTexture(int i)
