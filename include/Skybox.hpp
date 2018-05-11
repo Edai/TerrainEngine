@@ -7,26 +7,30 @@
 
 #include "GraphicalCore.hpp"
 #define FOLDER_SKYBOX "./resources/SkyBoxForCubeMap/"
-#define FACES_NAMES "SkyBox0.bmp", "SkyBox1.bmp", "SkyBox2.bmp", "SkyBox3.bmp", "SkyBox4.bmp", "SkyBox5.bmp"
+#define FACES_NAMES "SkyBox0.bmp", "SkyBox1.bmp", "SkyBox2.bmp", "SkyBox3.bmp", "SkyBox4.bmp"
+
 class Skybox
 {
 public:
+    static GLfloat size;
+    static GLfloat factorY;
+
     void Init();
     void Render(float dt);
+    GLuint GetTexture(int i);
 
-    GLuint textures[6];
-    const char *faces_names[6] = {FACES_NAMES};
     enum Faces {
         MAP_POSITIVE_Z = 0,
         MAP_POSITIVE_X = 1,
         MAP_NEGATIVE_Y = 2,
         MAP_NEGATIVE_X = 3,
-        MAP_POSITIVE_Y = 4,
-        MAP_NEGATIVE_Z = 5
+        MAP_POSITIVE_Y = 4
     };
 private:
     Skybox() = default;
     ~Skybox() = default;
+    GLuint textures[5];
+    const char *faces_names[5] = {FACES_NAMES};
 
 #pragma SINGLETON
     private:

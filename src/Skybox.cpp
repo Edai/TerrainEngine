@@ -5,10 +5,12 @@
 #include "Skybox.hpp"
 
 Skybox* Skybox::instance = nullptr;
+GLfloat Skybox::size = 200.0f;
+GLfloat Skybox::factorY = 8.0f;
 
 void Skybox::Init()
 {
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 5; i++)
     {
         std::string s = FOLDER_SKYBOX + std::string(faces_names[i]);
         textures[i] = SOIL_load_OGL_texture(s.c_str(), SOIL_LOAD_AUTO,
@@ -26,57 +28,52 @@ void Skybox::ApplyTexture(GLuint t)
 
 void Skybox::Render(float dt)
 {
-    GLfloat size = 100.0f;
-    GLfloat factorY = 2.0f;
-    
     glEnable(GL_TEXTURE_2D);
-    ApplyTexture(textures[MAP_NEGATIVE_Z]);
-    glBegin(GL_QUADS);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, -size / factorY, -size);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( size, -size / factorY, -size);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( size, -size / factorY,  size);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, -size / factorY,  size);
-    glEnd();
 
     ApplyTexture(textures[MAP_POSITIVE_Y]);
     glBegin(GL_QUADS);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(-size,  size / factorY, -size);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size / factorY,  size);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( size,  size / factorY,  size);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( size,  size / factorY, -size);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, size / factorY, -size);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, size / factorY, size);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(size, size / factorY, size);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(size, size / factorY, -size);
     glEnd();
 
     ApplyTexture(textures[MAP_NEGATIVE_X]);
     glBegin(GL_QUADS);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size / factorY,  size);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( size, -size / factorY,  size);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( size,  size / factorY,  size);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size / factorY,  size);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size / factorY, size);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(size, -size / factorY, size);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size / factorY, size);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, size / factorY, size);
     glEnd();
 
     ApplyTexture(textures[MAP_POSITIVE_X]);
     glBegin(GL_QUADS);
     glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size / factorY, -size);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(-size,  size / factorY, -size);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( size,  size / factorY, -size);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( size, -size / factorY, -size);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, size / factorY, -size);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(size, size / factorY, -size);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(size, -size / factorY, -size);
     glEnd();
 
     ApplyTexture(textures[MAP_NEGATIVE_Y]);
     glBegin(GL_QUADS);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f( size, -size / factorY, -size);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f( size,  size / factorY, -size);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f( size,  size / factorY,  size);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f( size, -size / factorY,  size);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(size, -size / factorY, -size);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(size, size / factorY, -size);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(size, size / factorY, size);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(size, -size / factorY, size);
     glEnd();
 
     ApplyTexture(textures[MAP_POSITIVE_Z]);
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f); glVertex3f(-size, -size / factorY, -size);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size / factorY,  size);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(-size,  size / factorY,  size);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size,  size / factorY, -size);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-size, -size / factorY, size);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-size, size / factorY, size);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-size, size / factorY, -size);
     glEnd();
 
     glDisable(GL_TEXTURE_2D);
+}
+
+GLuint Skybox::GetTexture(int i)
+{
+    return textures[i];
 }
