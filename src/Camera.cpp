@@ -5,60 +5,63 @@
 #include <Skybox.hpp>
 
 Camera::Camera() : speed(0.025f), fov(45.0), scale(0.5f), max_pitch(5), max_heading(5),
-                   move_camera(false), camera_position_delta(glm::vec3(0, 0, 0)), tolerate(2.0f)
+                   move_camera(false), posDelta(glm::vec3(0, 0, 0)), tolerate(2.0f)
 {
 }
 
 void Camera::Update()
 {
-    glm::quat pitchQ, headingQ;
+    static glm::quat pitchQ, headingQ;
 
-    camera_direction = glm::normalize(camera_look_at - camera_position);
-    pitchQ = glm::angleAxis(pitch, glm::cross(camera_direction, glm::vec3(0, 1, 0)));
+    dir = glm::normalize(lookAt - position);
+    pitchQ = glm::angleAxis(pitch, glm::cross(dir, glm::vec3(0, 1, 0)));
     headingQ = glm::angleAxis(heading, glm::vec3(0, 1, 0));
-    camera_direction = glm::rotate(glm::normalize(glm::cross(pitchQ, headingQ)), camera_direction);
-    if (- Skybox::size / 2 < (camera_position + camera_position_delta).x - tolerate &&
-        Skybox::size / 2 > (camera_position + camera_position_delta).x + tolerate &&
-        - Skybox::size / 2 < (camera_position + camera_position_delta).z - tolerate &&
-        Skybox::size / 2 > (camera_position + camera_position_delta).z + tolerate&&
-        - Skybox::size / Skybox::factorY < (camera_position + camera_position_delta).y  - tolerate &&
-        Skybox::size / Skybox::factorY > (camera_position + camera_position_delta).y + tolerate)
-        camera_position += camera_position_delta * 2.0f;
-    camera_look_at = camera_position + camera_direction * speed;
-    camera_position_delta = camera_position_delta * speed;
+    dir = glm::rotate(glm::normalize(glm::cross(pitchQ, headingQ)), dir);
+
+    if (- Skybox::size / 2 < (position + posDelta).x - tolerate &&
+        Skybox::size / 2 > (position + posDelta).x + tolerate &&
+        - Skybox::size / 2 < (position + posDelta).z - tolerate &&
+        Skybox::size / 2 > (position + posDelta).z + tolerate&&
+        - Skybox::size / Skybox::factorY < (position + posDelta).y  - tolerate &&
+        Skybox::size / Skybox::factorY > (position + posDelta).y + tolerate)
+        position += posDelta * 2.0f;
+    lookAt = position + dir * speed;
+    posDelta = posDelta * speed;
     heading *= speed;
     pitch *= speed;
 
-    ProjectionMatrix = glm::perspective(fov, aspect, 1.0, 5000.0);
-    ViewMatrix = glm::lookAt(camera_position, camera_look_at, glm::vec3(0, 1, 0));
-    ModelMatrix = glm::mat4(1.0f);
+    projectMatrix = glm::perspective(fov, aspect, 1.0, 5000.0);
+    viewMatrix = glm::lookAt(position, lookAt, glm::vec3(0, 1, 0));
+
+    glm::mat4 mvp = projectMatrix * viewMatrix;
+    glLoadMatrixf(glm::value_ptr(mvp));
 }
 
 void Camera::SetPosition(glm::vec3 pos)
 {
-    camera_position = pos;
+    position = pos;
 }
 
 void Camera::SetLookAt(glm::vec3 pos)
 {
-    camera_look_at = pos;
+    lookAt = pos;
 }
 
-void Camera::Move(CameraDirection dir)
+void Camera::Move(CameraDirection d)
 {
-    switch (dir)
+    switch (d)
     {
         case FORWARD:
-            camera_position_delta += camera_direction * scale;
+            posDelta += dir * scale;
             break;
         case BACK:
-            camera_position_delta -= camera_direction * scale;
+            posDelta -= dir * scale;
             break;
         case LEFT:
-            camera_position_delta -= glm::cross(camera_direction, glm::vec3(0, 1, 0)) * scale;
+            posDelta -= glm::cross(dir, glm::vec3(0, 1, 0)) * scale;
             break;
         case RIGHT:
-            camera_position_delta += glm::cross(camera_direction, glm::vec3(0, 1, 0)) * scale;
+            posDelta += glm::cross(dir, glm::vec3(0, 1, 0)) * scale;
             break;
     }
 }

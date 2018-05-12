@@ -19,11 +19,7 @@ Engine::Engine()
 
 void Engine::Update(float dt)
 {
-    glm::mat4 mvp;
-
     mainCamera->Update();
-    mvp = mainCamera->ProjectionMatrix * mainCamera->ViewMatrix * mainCamera->ModelMatrix;
-    glLoadMatrixf(glm::value_ptr(mvp));
 
     Water::Instance()->Render(dt);
     Skybox::Instance()->Render(dt);

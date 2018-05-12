@@ -31,12 +31,15 @@ public:
     void Move(CameraDirection);
     void Rotate(int, int);
 
-    glm::mat4 ProjectionMatrix;
-    glm::mat4 ViewMatrix;
-    glm::mat4 ModelMatrix;
+
 private:
     void ChangePitch(float);
     void ChangeHeading(float);
+
+    bool move_camera;
+
+    glm::mat4 projectMatrix;
+    glm::mat4 viewMatrix;
 
     float tolerate;
     float speed;
@@ -47,12 +50,11 @@ private:
     float pitch;
     float max_pitch;
     float max_heading;
-    bool move_camera;
 
-    glm::vec3 camera_position;
-    glm::vec3 camera_position_delta;
-    glm::vec3 camera_look_at;
-    glm::vec3 camera_direction;
+    glm::vec3 position;
+    glm::vec3 posDelta;
+    glm::vec3 lookAt;
+    glm::vec3 dir;
     glm::vec3 mouse_position;
 };
 
