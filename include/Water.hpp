@@ -39,6 +39,8 @@ public:
         return instance;
     }
 #pragma END SINGLETON
+
+    void RenderTerrainReflexion();
 };
 
 #endif //WaterENGINE_WATER_HPP

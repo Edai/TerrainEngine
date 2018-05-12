@@ -23,6 +23,7 @@ public:
 
     static int old_t;
     static int speedFactor;
+    static float plan;
 
 private:
     void Init();

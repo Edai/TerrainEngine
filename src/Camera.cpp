@@ -2,10 +2,11 @@
 // Created by edai on 12/05/18.
 //
 
+#include <Skybox.hpp>
 #include "Camera.hpp"
 
-Camera::Camera() : speed(0.05f), fov(45.0), scale(0.5f), max_pitch(5), max_heading(5),
-                   move_camera(false), camera_position_delta(glm::vec3(0, 0, 0))
+Camera::Camera() : speed(0.025f), fov(45.0), scale(0.5f), max_pitch(5), max_heading(5),
+                   move_camera(false), camera_position_delta(glm::vec3(0, 0, 0)), tolerate(2.0f)
 {
 }
 
@@ -17,11 +18,17 @@ void Camera::Update()
     pitchQ = glm::angleAxis(pitch, glm::cross(camera_direction, glm::vec3(0, 1, 0)));
     headingQ = glm::angleAxis(heading, glm::vec3(0, 1, 0));
     camera_direction = glm::rotate(glm::normalize(glm::cross(pitchQ, headingQ)), camera_direction);
-    camera_position += camera_position_delta;
+    if (- Skybox::size / 2 < (camera_position + camera_position_delta).x - tolerate &&
+        Skybox::size / 2 > (camera_position + camera_position_delta).x + tolerate &&
+        - Skybox::size / 2 < (camera_position + camera_position_delta).z - tolerate &&
+        Skybox::size / 2 > (camera_position + camera_position_delta).z + tolerate&&
+        - Skybox::size / Skybox::factorY < (camera_position + camera_position_delta).y  - tolerate &&
+        Skybox::size / Skybox::factorY > (camera_position + camera_position_delta).y + tolerate)
+        camera_position += camera_position_delta * 2.0f;
     camera_look_at = camera_position + camera_direction * speed;
+    camera_position_delta = camera_position_delta * speed;
     heading *= speed;
     pitch *= speed;
-    camera_position_delta = camera_position_delta * speed;
 
     ProjectionMatrix = glm::perspective(fov, aspect, 1.0, 5000.0);
     ViewMatrix = glm::lookAt(camera_position, camera_look_at, glm::vec3(0, 1, 0));

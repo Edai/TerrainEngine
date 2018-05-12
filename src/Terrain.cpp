@@ -51,11 +51,10 @@ void Terrain::RenderIsland()
 
 void Terrain::Render(float dt)
 {
-    double equation[] = {0, -1, 0, 0};
+    double equation[] = {0, 0.1, 0, -1.35};
     glPushMatrix();
-    /*glEnable(GL_CLIP_PLANE0);
-    glClipPlane(GL_CLIP_PLANE0, equation);*/
-    glTranslatef(0, - Skybox::size / Skybox::factorY - 20.0f, 0);
+
+    glTranslatef(0, - Skybox::size / Skybox::factorY - 20.0, 0);
     glActiveTexture(GL_TEXTURE0);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, terrain_texture);
@@ -64,9 +63,9 @@ void Terrain::Render(float dt)
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, detail_texture);
     glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE);
-
+    glEnable(GL_CLIP_PLANE0);
+    glClipPlane(GL_CLIP_PLANE0, equation);
     RenderIsland();
-
     glDisable(GL_TEXTURE_2D);
     glActiveTexture(GL_TEXTURE1);
     glDisable(GL_TEXTURE_2D);

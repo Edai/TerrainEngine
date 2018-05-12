@@ -38,6 +38,7 @@ private:
     void ChangePitch(float);
     void ChangeHeading(float);
 
+    float tolerate;
     float speed;
     double aspect;
     double fov;

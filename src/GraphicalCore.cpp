@@ -7,6 +7,7 @@
 GraphicalCore* GraphicalCore::instance = nullptr;
 int GraphicalCore::old_t = 0;
 int GraphicalCore::speedFactor = 1;
+float GraphicalCore::plan = 0;
 
 void GraphicalCore::Init()
 {

@@ -34,6 +34,27 @@ void Water::RenderWater()
 }
 
 void Water::RenderSkyReflexion()
+{ glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, Skybox::Instance()->GetTexture(Skybox::Faces::MAP_POSITIVE_Y));
+    glColor4f(1.0f, 1.0f, 1.0f, skyOpacity);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-Skybox::size, -Skybox::Skybox::size / Skybox::factorY, -Skybox::size);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(Skybox::size, -Skybox::size / Skybox::factorY, -Skybox::size);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(Skybox::size, -Skybox::size / Skybox::factorY, Skybox::size);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-Skybox::size, -Skybox::size / Skybox::factorY, Skybox::size);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-Skybox::size, -Skybox::size / Skybox::factorY, Skybox::size);
+    glEnd();
+}
+
+void Water::RenderTerrainReflexion()
 {
     glBindTexture(GL_TEXTURE_2D, Skybox::Instance()->GetTexture(Skybox::Faces::MAP_POSITIVE_Y));
     glColor4f(1.0f, 1.0f, 1.0f, skyOpacity);
