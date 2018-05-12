@@ -2,11 +2,10 @@
 // Created by edai on 10/05/18.
 //
 
-#include <cassert>
 #include "Skybox.hpp"
 
 Skybox* Skybox::instance = nullptr;
-GLfloat Skybox::size = 200.0f;
+GLfloat Skybox::size = 1000.0f;
 GLfloat Skybox::factorY = 5.0f;
 
 void Skybox::Init()

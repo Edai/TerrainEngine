@@ -21,6 +21,7 @@ public:
     Engine();
     ~Engine() = default;
     void Update(float dt);
+    static Camera *mainCamera;
 
 #pragma SINGLETON
 private:

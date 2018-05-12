@@ -44,6 +44,7 @@ public:
 
 #pragma END SINGLETON
 
+    void RenderIsland();
 };
 
 #endif //TERRAINENGINE_TERRAIN_HPP

@@ -7,14 +7,12 @@
 GraphicalCore* GraphicalCore::instance = nullptr;
 int GraphicalCore::old_t = 0;
 int GraphicalCore::speedFactor = 1;
-int GraphicalCore::rotate = 45;
-float GraphicalCore::Gy = 0.0f;
+
 void GraphicalCore::Init()
 {
-    glDepthFunc(GL_LEQUAL);
-    glShadeModel(GL_FLAT);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_NORMALIZE);
     old_t = glutGet(GLUT_ELAPSED_TIME);
-
 }
 
 bool GraphicalCore::Run(int ac, char **av, Options *options)
@@ -26,6 +24,10 @@ bool GraphicalCore::Run(int ac, char **av, Options *options)
         glutInitWindowPosition(WINDOWPOS_X, WINDOWPOS_Y);
         glutInitWindowSize(options->width, options->height);
         glutCreateWindow(options->window_name.c_str());
+        glewExperimental = GL_TRUE;
+        GLenum err = glewInit();
+        if( err != GLEW_OK )
+            return (false);
         Init();
         glutIdleFunc(GraphicalCore::Update);
         glutReshapeFunc(GraphicalCore::Reshape);
@@ -58,31 +60,29 @@ void GraphicalCore::Update()
 
     old_t = t;
     dt = dt * speedFactor;
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     Engine::Instance()->Update(dt);
     glutSwapBuffers();
-    glutPostRedisplay();
 }
 
-void GraphicalCore::KeyboardHandle(unsigned char key, int x, int y)
+void GraphicalCore::KeyboardHandle(unsigned char key, int, int)
 {
-    switch (key)
-    {
-        case 27:
-            glutLeaveMainLoop();
+    switch (key) {
+        case 'w':
+            Engine::Instance()->mainCamera->Move(Camera::CameraDirection::FORWARD);
             break;
-        case 'z':
-            rotate += 2;
+        case 'a':
+            Engine::Instance()->mainCamera->Move(Camera::CameraDirection::LEFT);
             break;
         case 's':
-            rotate -= 2;
-            break;
-        case'e':
-        std::cout << Gy << std::endl;
-            Gy += 0.1f;
+            Engine::Instance()->mainCamera->Move(Camera::CameraDirection::BACK);
             break;
         case 'd':
-            std::cout << Gy << std::endl;
-            Gy -= 0.1f;
+            Engine::Instance()->mainCamera->Move(Camera::CameraDirection::RIGHT);
+            break;
+        case 27:
+            glutLeaveMainLoop();
             break;
         default:
             return;
@@ -111,11 +111,8 @@ void GraphicalCore::SpecialKeyHandle(int key, int x, int y)
 
 void GraphicalCore::Reshape(int w, int h)
 {
-    glViewport(0, 0, (GLsizei) w, (GLsizei) h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-1.0, 1.0, -1.0, 1.0, 1.0, 500);
-    glMatrixMode(GL_MODELVIEW);
+    if (h)
+        Engine::Instance()->mainCamera->SetViewport(w, h);
 }
 
 void GraphicalCore::Menu(int value)
@@ -132,11 +129,12 @@ void GraphicalCore::CreateMenu()
 
 void GraphicalCore::MouseButton(int button, int state, int x, int y)
 {
+    Engine::Instance()->mainCamera->SetPos(button, state, x, y);
 }
 
 void GraphicalCore::MouseMove(int x, int y)
 {
-
+    Engine::Instance()->mainCamera->Rotate(x, y);
 }
 
 GraphicalCore::GraphicalCore() = default;

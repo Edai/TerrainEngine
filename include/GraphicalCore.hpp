@@ -6,6 +6,7 @@
 #define ASSIGNMENT_GRAPHICALCORE_HPP
 
 #include "Application.hpp"
+#include "Camera.hpp"
 
 class GraphicalCore
 {
@@ -22,8 +23,7 @@ public:
 
     static int old_t;
     static int speedFactor;
-    static int rotate;
-    static float Gy;
+
 private:
     void Init();
     void CreateMenu(void);

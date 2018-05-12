@@ -18,9 +18,12 @@ void Water::RenderWater()
 {
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glBindTexture(GL_TEXTURE_2D, waterTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
     glBegin(GL_QUADS);
     glTexCoord2f(waterSize, waterSize); glVertex3f(-x, -Skybox::size / Skybox::factorY, -Skybox::size);
     glTexCoord2f(waterSize, 0.0f); glVertex3f(x, -Skybox::size / Skybox::factorY, -Skybox::size);
@@ -34,6 +37,8 @@ void Water::RenderSkyReflexion()
 {
     glBindTexture(GL_TEXTURE_2D, Skybox::Instance()->GetTexture(Skybox::Faces::MAP_POSITIVE_Y));
     glColor4f(1.0f, 1.0f, 1.0f, skyOpacity);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
