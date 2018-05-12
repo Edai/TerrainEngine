@@ -7,7 +7,6 @@
 GraphicalCore* GraphicalCore::instance = nullptr;
 int GraphicalCore::old_t = 0;
 int GraphicalCore::speedFactor = 1;
-float GraphicalCore::plan = 0;
 
 void GraphicalCore::Init()
 {
@@ -112,8 +111,7 @@ void GraphicalCore::SpecialKeyHandle(int key, int x, int y)
 
 void GraphicalCore::Reshape(int w, int h)
 {
-    if (h)
-        Engine::Instance()->mainCamera->SetViewport(w, h);
+    Engine::Instance()->mainCamera->SetViewport(w, h);
 }
 
 void GraphicalCore::Menu(int value)

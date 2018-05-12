@@ -3,7 +3,6 @@
 //
 
 #include <Skybox.hpp>
-#include "Camera.hpp"
 
 Camera::Camera() : speed(0.025f), fov(45.0), scale(0.5f), max_pitch(5), max_heading(5),
                    move_camera(false), camera_position_delta(glm::vec3(0, 0, 0)), tolerate(2.0f)
@@ -49,17 +48,17 @@ void Camera::Move(CameraDirection dir)
 {
     switch (dir)
     {
-        case LEFT:
-            camera_position_delta -= glm::cross(camera_direction, glm::vec3(0, 1, 0)) * scale;
-            break;
-        case RIGHT:
-            camera_position_delta += glm::cross(camera_direction, glm::vec3(0, 1, 0)) * scale;
-            break;
         case FORWARD:
             camera_position_delta += camera_direction * scale;
             break;
         case BACK:
             camera_position_delta -= camera_direction * scale;
+            break;
+        case LEFT:
+            camera_position_delta -= glm::cross(camera_direction, glm::vec3(0, 1, 0)) * scale;
+            break;
+        case RIGHT:
+            camera_position_delta += glm::cross(camera_direction, glm::vec3(0, 1, 0)) * scale;
             break;
     }
 }
@@ -111,5 +110,6 @@ void Camera::SetPos(int button, int state, int x, int y)
 
 void Camera::SetViewport(double width, double height)
 {
-    aspect = width / height;
+    if (height)
+        aspect = width / height;
 }

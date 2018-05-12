@@ -6,7 +6,7 @@
 
 Skybox* Skybox::instance = nullptr;
 GLfloat Skybox::size = 1000.0f;
-GLfloat Skybox::factorY = 5.0f;
+GLfloat Skybox::factorY = 3.0f;
 
 void Skybox::Init()
 {
